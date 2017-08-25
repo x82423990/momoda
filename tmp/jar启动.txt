@@ -1,0 +1,70 @@
+[ ! -d /opt/service/hall/ ]&& mkdir -p /opt/service/$1/
+cp -rf  /tmp/service/WesaiPoker.server.$1/target/* /opt/service/$1/
+cp -rf /opt/service/$1_config/* /opt/service/$1/config/common
+bash /opt/service/scripts/manage_$1 restart
+
+#!/bin/sh
+
+set -e
+. /etc/profile
+
+func_start() {
+    cd $2;
+    if [ -f $2.tar.gz ]; then
+        tar -zxf $2.tar.gz
+    fi
+    echo "Starting the service..."
+    BUILD_ID=dontKillMe nohup java -jar `ls *.jar` > output 2>&1 &
+    echo $! > pidfile
+    cd $1
+}
+
+func_stop() {
+    cd $2;
+    echo "Stopping the service..."
+    local PID=`sed -n 1p pidfile`
+        if [ $PID ]; then
+        curl http://127.0.0.1:$3/?action=http.do\&m=leaveOnline || true
+        sleep 2s
+        echo "Stopping the Service, begin killing $PID"
+        kill -9 $PID >/dev/null 2>&1 || true
+        :> pidfile
+    fi
+    cd $1
+}
+
+SERVER=/opt/server
+func_copy() {
+    local UPLOAD=/tmp/server
+
+    echo "Copying files..."
+    cd $UPLOAD
+    LAST=`ls -t1 | head -n1`
+    cd $LAST
+
+    if [ -f $2.tar.gz ]; then
+        yes | cp -rf $2.tar.gz /opt/server/$2/
+    fi
+
+    cd $1
+}
+
+func_copy_config() {
+    cd $SERVER
+    yes | cp $2_config/* $2/config/common
+    cd $1
+}
+
+copy_restart() {
+    local PWD=`pwd`
+    local TYPE=$1
+    local PORT=$2
+    func_stop $PWD $TYPE $PORT
+    func_copy $PWD $TYPE
+    func_start $PWD $TYPE
+    func_copy_config $PWD $TYPE
+}
+
+PWD=`pwd`
+cd /opt/server
+copy_restart $1 8070

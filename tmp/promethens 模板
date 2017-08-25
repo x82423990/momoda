@@ -1,0 +1,64 @@
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=Fs9006 -e MYSQL_DATABASE=db_poker -e MYSQL_USER=poker -e MYSQL_PASSWORD=wesai.poker -d -p 3306:3306 daocloud.io/mysql
+
+lianjie 
+$ docker run -it --link some-mysql:mysql --rm daocloud.io/mysql sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"'
+
+
+global:
+  resolve_timeout: 20m
+
+templates:
+- 'alertmanager.tmpl'
+
+route:
+  group_by: ['alertname','node','device']
+  group_wait: 20s
+  group_interval: 30s
+  repeat_interval: 30m
+  receiver: lingxin-prometheus
+
+  routes:
+  - match_re:
+      alertname: ^(example1|example2).*
+    receiver: lingxin-prometheus
+  - match_re:
+      alertname: ^(xxx2).*
+    receiver: lingxin-xxx2
+    routes:
+      - match_re:
+          alertname: .*_5m_.*
+        repeat_interval: 5m
+      - match_re:
+          alertname: .*_15m_.*
+        repeat_interval: 15m
+      - match_re:
+          alertname: .*_30m_.*
+        repeat_interval: 30m
+      - match_re:
+          alertname: .*_1h_.*
+        repeat_interval: 1h
+      - match_re:
+          alertname: .*_6h_.*
+        repeat_interval: 6h
+      - match_re:
+          alertname: .*_1d_.*
+        repeat_interval: 1d
+
+inhibit_rules:
+- source_match:
+    severity: 'critical'
+  target_match:
+    severity: 'warning'
+  equal: ['alertname']
+
+receivers:
+- name: 'lingxin-prometheus'
+  slack_configs:
+    - api_url: "https://hooks.pubu.im/services/xxxxxxxxx"
+      text: '{{ template "xxxx.description" .Alerts}}'
+      channel: '#test'
+- name: 'lingxin-xxx2'
+  slack_configs:
+    - api_url: "https://hooks.pubu.im/services/xx2"
+      text: '{{ template "xxxx.description" .Alerts}}'
+      channel: '#test2'

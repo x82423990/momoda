@@ -1,0 +1,28 @@
+docker 测试环境域名列表
+web 服务
+
+	OM系统
+		test.cai.adminpre.qptianxia.com 	
+
+	系统静态文件主库
+		test.cai8.qptianxia.com
+
+	静态文件库:繁花似锦
+		test.florissa.qptianxia.com	
+
+	嗨玩吧PC静态站
+		test.hiwan8.qptianxia.com
+
+	OMP Web
+		test.omp.pre.qptianxia.com	
+
+	开发云管理平台	
+		test.opencloudpre.cai.qptianxia.com	
+
+
+所有的TCP服务:
+	
+	test.workman.qptianxia.com:$port
+
+
+	

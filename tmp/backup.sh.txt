@@ -1,0 +1,39 @@
+#!/bin/bash
+## icons
+set -e
+#dir=`date "+%Y-%m-%d"`
+dir=`date "+%Y-%m-%d-%H-%M"`
+mkdir /opt/backup/$dir
+##tar xf
+for i in "chat" "db" "pay" "hall" "room";do
+cd /tmp/service
+rm -rf $i && mkdir $i 
+tar xf ${i}.tar.gz -C $i
+cd /opt/service
+mv /opt/service/$i/*.jar  $i
+mv  /tmp/poker.${i}-1.0.jar /opt/service/$i/
+done
+
+
+#!/bin/bash
+source ./manage
+## icons
+bash manage stop
+set -e
+#dir=`date "+%Y-%m-%d"`
+dir=`date "+%Y-%m-%d-%H-%M"`
+mkdir -p /opt/backup/$dir
+##tar xf
+for i in "chat" "db" "pay" "hall" "room";do
+cd /tmp/service
+rm -rf $i && mkdir $i 
+tar xf ${i}.tar.gz -C $i
+cd /opt/service
+##backup
+tar zcf  /opt/backup/$dir/$i.tar.gz  $i
+
+mv  /tmp/service/${i}/poker.${i}-1.0.jar /opt/service/$i/
+rm -rf /opt/service/$i/lib && mv  /tmp/service/${i}/lib /opt/service/$i/
+done
+
+bash opt/soft/manage start

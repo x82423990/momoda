@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <title>test</title>
+</head>
+<body>
+<div class='container'>
+<h1>第一段</h1>   
+<p id='demo'>我的样式将被改变</p>
+<script>
+   
+function MyF()
+{
+   x=document.getElementById('demo')
+   x.style.color="#ff0300";          // 改变样式thea   
+
+}
+</script>
+
+<p class='lead'>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.</p>
+<button type="button", onclick="MyF()">点击</button>
+<table class="table table-striped">
+   <thead>
+      <tr class='info'>
+         <th>用户名</th>
+         <th>密码</th>
+      </tr>
+      <tbody>
+         <tr class='danger'>
+            <td>admin</td>
+            <td>Fs9006</td>
+         </tr>
+         <tr class='warning'>
+            <td>cir</td>
+            <td>jfonfrt</td>            
+         </tr>
+         <tr class="success">
+            <td>gokit</td>
+            <td>ggggg</td>
+            </tr>
+      </tbody>
+   </thead>
+</table>
+<a href="http://www.baidu.com" type="button" class='btn btn-primary btn-lg'>submit</a>
+
+<p class="bg-primary">aaa</p>
+<p class="bg-success">.aaa</p>
+<p class="bg-info">.aaa..</p>
+<p class="bg-warning">.aaa..</p>
+<p class="bg-danger">.aaa..</p>
+<span aria-hidden="true">&times;</span>
+
+
+</div>
+</body>
+</html>

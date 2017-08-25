@@ -1,0 +1,42 @@
+  "constraints": [["hostname", "LIKE", "pro.slave[1-5]"]],
+
+
+
+  169.47.245.19\
+
+
+
+  处理product  正式环境的自动脚本
+
+
+ python 升级
+
+tar -xzvf pip-1.5.4.tar.gz
+cd pip-1.5.4
+python setup.py install
+
+./configure  
+make all             
+make install  
+make clean  
+make distclean
+/usr/local/bin/python2.7 -V  
+
+# 6.建立软连接，使系统默认的 python指向 python2.7
+mv /usr/bin/python /usr/bin/python2.6.6  
+ln -s /usr/local/bin/python2.7 /usr/bin/python  
+python -V  
+
+vi /usr/bin/yum  
+
+
+wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.10.tar.gz
+cd distribute-0.6.10
+python setup.py install
+
+java -jar dfsd.jar 8070
+
+rate(mysql_info_schema_query_response_time_seconds_sum{instance="$host"}[$interval]) / rate(mysql_info_schema_query_response_time_seconds_count{instance="$host"}[$interval]) * 1000 or irate(mysql_info_schema_query_response_time_seconds_sum{instance="$host"}[5m]) / irate(mysql_info_schema_query_response_time_seconds_count{instance="$host"}[5m]) * 1000
+
+
+rate(mysql_global_status_queries{instance="$host"}[$interval]) or irate(mysql_global_status_queries{instance="$host"}[5m])

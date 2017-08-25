@@ -1,0 +1,7 @@
+echo "poker ALL=(ALL) NOPASSWD : ALL"  > /etc/sudoers.d/nopasswd4sudo 
+useradd poker
+mkdir /home/poker/.ssh/
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA4q1U7nA97tQ311nPScwGEp/utNgmiglxYeVnsYavndm7h1dbxsfObD4HhVoIfqYvBtIvobk0UiSZLHS01L5Qv+YA79ldCeRUixQmMDIWDafDN0gLj/IFpiTINxlY7eMBN0ZInu9YnOPq25MS463LmUx0E/2Bvw8I3UsxKubGYwzT12SELegQ02iaVopC1kl7zBVWa7vJphuX0qpO2S3qhazC3V82+rFfl7XfGMmD2vRfsJrJ746OIIkM5giyBY1VPMsfg241oYmcX1A9IXi4jQB7T2vaqVRsIGkYYI+4ic9U5/h6JYBImGuabdArGA/lDG8CFPyCCMcW6KnxzloWaw== game@VM_6_117_centos" >  /home/poker/.ssh/authorized_keys
+chown -R poker.poker /home/poker/.ssh/
+chmod 644 /home/poker/.ssh/authorized_keys
+echo "ok"

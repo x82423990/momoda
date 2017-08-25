@@ -1,0 +1,7 @@
+Python 执行shell 命令
+p1 = subprocess.Popen(["netstat",'-tnl'], stdout=subprocess.PIPE)
+p2 = subprocess.Popen(["grep", "^80$"], stdin=p1.stdout, stdout=subprocess.PIPE)
+p1.stdout.close()  # Allow p1 to receive a SIGPIPE if p2 exits.
+output = p2.communicate()[0]
+out
+

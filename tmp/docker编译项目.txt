@@ -1,0 +1,81 @@
+ "db_pass": "jio6s&eh1N
+
+ FROM harbor.qcloud.qptianxia.com/ops_manage/nginx-phpfpm
+
+RUN rm /usr/share/nginx/html/* -rf
+ADD web/admin-web/ /usr/share/nginx/html/web/admin-web
+ADD Config/ /usr/share/nginx/html/Config
+
+ADD vhost.conf /etc/nginx/conf.d
+ADD start.sh /start.sh
+
+RUN chmod 777 /start.sh && rm /etc/nginx/sites-enabled/default
+
+coin-service
+FROM harbor.qcloud.qptianxia.com/ops_manage/nginx-fpm
+
+RUN rm /usr/share/nginx/html/* -rf
+ADD vendor/ /usr/share/nginx/html/vendor
+ADD Config/ /usr/share/nginx/html/Config
+ADD service/ /usr/share/nginx/html/service
+RUN sed -i 's/$daemonize = true/$daemonize = false/' /usr/share/nginx/html/vendor/Core/Master.php
+  test.adminservice.qptianxia.com 20005 | test.workman.qptianxia.com:20005
+
+  已经更换dockerfile 并简单测试的服务
+|test.userservice.qptianxia.com-tcp |user-service  | 20001 | test.workman.qptianxia.com:20001 |
+|test.cai.adminpre.qptianxia.com|admin-web | 80 | http://test.cai.adminpre.qptianxia.com/|
+|test.adminservice.qptianxia.com | admin-service |20005 | test.workman.qptianxia.com:20005|
+|test.cai8.qptianxia.com| cai8 | 80| est.cai8.qptianxia.com |
+|test.coinservice.qptianxia.com-tcp | coinservice|20004 |  test.workman.qptianxia.com:20004|
+|test.comservice.qptianxia.com-tcp | com-service | 20010| test.workman.qptianxia.com:20010|
+|test.easyapigo.qptianxia.com-tcp| easyapi|10101|test.workman.qptianxia.com:10101|
+|test.mallervice.qptianxia.com-tcp|Mall| 20012|test.workman.qptianxia.com:20012|
+|test.lotterygo.qptianxia.com-tcp|lottery-service|20002|test.workman.qptianxia.com:20002|
+|test.lotweb.qptianxia.com-tcp | lottery-web|80 |test.cai.pre.qptianxia.com|
+|test.lpservice.qptianxia.com-tcp| lottery-playing-service|20011| test.workman.qptianxia.com:20011|
+|test.marketingservice.qptianxia.com-tcp| marketing-service|20007|test.workman.qptianxia.com:20007|
+|test.matchdatago.qptianxia.com-tcp|atch-data-goter| 20032|test.workman.qptianxia.com:20032|
+|test.sportlottego.qptianxia.com-tcp |sportlotte-seller-service|test.workman.qptianxia.com:20016|
+|test.nmpgamego.qptianxia.com-tcp|game-go-service|test.workman.qptianxia.com:20017|
+|test.oaservice.qptianxia.com-tcp |opencloud-admin-service |test.workman.qptianxia.com:20009|
+|test.ompservice.qptianxia.com-tcp| omp-service| test.workman.qptianxia.com:20021|
+|test.omp.pre.qptianxia.com|omp|80| test.omp.pre.qptianxia.com|
+|test.partnerservice.qptianxia.com-tcp |partner-service| test.workman.qptianxia.com:20008|
+|test.paymentservice.qptianxia.com-tcp |paymentservice|test.workman.qptianxia.com:20003|
+|test.robotservice.qptianxia.com-tcp |robot-service|test.workman.qptianxia.com:20031|
+
+test.mqgo.qptianxia.com-tcp 没有监听地址
+*** test.opencloudpre.cai.qptianxia.com 奇怪的问题， docker链接不上redis
+***** mesosgo编译失败
+*** test.messagego.qptianxia.com-tcp 异常，编译go 失败
+test.logger-monitor.qptianxia.com-tcp 三个端口是单独在Jenkins服务器启动容器，因为他有udp端口
+test.florissa.qptianxia.com 静态文件，待确认。。。
+test.hiwan8.qptianxia.com 静态文件
+http://test.cai8.qptianxia.com/index.ios.js 待确认
+test.florissa.qptianxia.com 静态文件，待确认。。。
+
+
+
+
+
+
+./log-monitor -c config/monitor.yml
+./log-broker -c config/broker.yml
+./log-pipe -c config/pipe.yml
+
+
+for i in `ls`; do  sed -i  's@[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}@test.workman.qptianxia.com' $i;done
+
+service.qptianxia.com-tcp:7         "/bin/sh -c '/usr/sha"   10 minutes ago       Up 10 minutes       0.0.0.0:31375->2001/tcp                    mesos-11fa12b1-c5be-4c2c-939a-1d37de07a1db-S0.2bbec061-f024-44d6-a174-9239815f750a
+dc6f11833712        harbor.qcloud.qptianxia.com/publish/test.lmservice.qptianxia.com-tcp:6           "/bin/sh -c '/usr/sha"   2 days ago           Up 2 days           0.0.0.0:31551->2001/tcp                    mesos-11fa12b1-c5be-4c2c-939a-1d37de07a1db-S0.e804b1bf-e6ab-4b7d-b067-3f7c410a4130
+
+
+
+
+
+
+
+
+
+
+

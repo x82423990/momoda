@@ -1,0 +1,69 @@
+docker run -d \
+  -v /tmp/ldap/data/:/var/lib/ldap:rw \
+  -v /tmp/ldap/etc/ldap/slapd.d/:/etc/ldap/slapd.d:rw \
+  -e LDAP_DOMAIN=example.com \
+  -e LDAP_ADMIN_PWD=toor \
+  -e LDAP_ORGANISATION="docker.io Example Inc." \
+  -p 389:389 \
+  -p 80:80 \
+  -p 10022:22 \
+  sharaku/ldap
+
+add group groupname --gid 1010
+
+adduser test_user --passwd test -uid 10000 --group test_group --sn test_user --email test_user@example.com
+9006
+
+add user -name kaka -passwd Fs9006 -uid 10000 -group test -sn snkaka -email a@b.com 
+
+
+
+
+-home home_dir /home/kaka -shell nologin
+
+
+##LDAP
+
+addgroup -name test -group - gid 10000
+LDAP> add group -name test -gid 10000
+add user -name gsq -passwd 123456 -uid 10086 -group test_group -sn snqsq -email wakak@yifan.com
+
+
+docker run -d \
+  --name ldap \
+  -v /tmp/tetsdd/ldap/data:/var/lib/ldap:rw \
+  -v /tmp/tetsdd/ldap/etc/ldap/slapd.d:/etc/ldap/slapd.d:rw \
+  -e LDAP_DOMAIN=211.159.151.172 \
+  -e LDAP_ADMIN_PWD=toor \
+  -e LDAP_ORGANISATION="docker.io Example Inc." \
+  -p 389:389 -p 20022:22 \
+  sharaku/ldap
+
+
+
+  docker run -d \
+  --name redmine-mysql \
+  -v /tmp/redmine/mysql:/var/lib/mysql:rw \
+  -e "DB_NAME=redmine_production" -e "DB_USER=redmine" -e "DB_PASS=password" \
+  sameersbn/mysql:latest
+
+
+docker run -d \
+  --name redmine \
+  --link redmine-mysql:mysql \
+  -v /path/to/redmine/data:/home/redmine/data:rw \
+  -v /path/to/redmine/public:/home/redmine/redmine/public:rw \
+  -p 10080:80 \
+  sameersbn/redmine
+
+
+
+  docker run --name=redmine -d \
+  --link=redmine-mysql:mysql --publish=10083:80 \
+  --env='REDMINE_PORT=10083' \
+  --volume=/tmp/redmine/data:/home/redmine/data \
+  sameersbn/redmine
+
+
+
+

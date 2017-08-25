@@ -1,0 +1,155 @@
+tmp
+./scripts/mysql_install_db --user=mysql --datadir=/opt/mydata
+cp support-files/my-large.cnf /etc/my.cnf
+[ -f /etc/init.d/mysqld ] && rm -rf /etc/init.d/mysqld
+cp support-files/mysql.server /etc/init.d/mysqld
+sed  -i "adatadir = /opt/mydata -i /etc/my.cnf
+chmod 755 /etc/init.d/mysqld
+grant all on db_poker.* to 'poker'@'127.0.0.1' identified by 'wesai.poker';
+
+
+
+update user set plugin=mysql_native_password where user='lottery';
+update user set host=%.%.%.% where user=lottery
+grant all on *.* to 'lottery'@'%.%.%.%' identified by "weisaishidai";
+grant all on *.* to 'root'@'192.168.%.%' identified by 'mageedu';
+docker run -it --rm harbor.qcloud.qptianxia.com/publish/test.mqgo.qptianxia.com-tcp:16 /bin/bash
+
+docker run -it --rm -p 6666:6379 -v /tmp/redis.conf:/etc/redis.conf  harbor.qcloud.qptianxia.com/publish/test.redis.qptianxia.com-tcp:3 /bin/bash
+
+
+
+<?php  
+$redis = new redis();  
+$redis->connect('test.workman.qptianxia.com', 6379);  
+$result = $redis->set('test',"11111111111");  
+var_dump($result);    //结果：bool(true)  
+?>  
+
+
+/usr/bin/nohup ./log-monitor -c config/monitor.yml 
+/usr/bin/nohup ./log-broker -c config/broker.yml 
+/usr/bin/nohup ./log-pipe -c config/pipe.yml 
+
+proxy_headers_hash_max_size 51200;
+proxy_headers_hash_bucket_size 6400;
+ plugin                                    |
++---------------+-------------------------------------------+-------------------------------------------+
+| root          | *AFB7DCF357996982EC056FC8DDD50FFC436B18FC | mysql_native_password 
+
+
+
+mesos slave 安装
+
+
+添加
+zk://a01.master.mesos.prod.v.bj.mxj.io:2181,a02.master.mesos.prod.v.bj.mxj.io:2181,a03.master.mesos.prod.v.bj.mxj.io:2181/mesos
+
+# Setup
+sudo apt-key adv —keyserver hkp://keyserver.ubuntu.com:80 —recv E56151BF
+DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+CODENAME=$(lsb_release -cs)
+
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer -y
+sudo apt-get install oracle-java8-set-default -y
+
+# Add the repository
+echo "deb http://repos.mesosphere.com/${DISTRO} ${CODENAME} main" | \
+sudo tee /etc/apt/sources.list.d/mesosphere.list
+sudo apt-get -y update
+sudo apt-get -y install mesos
+
+echo 'docker,mesos' > /etc/mesos-slave/containerizers
+echo '5mins' > /etc/mesos-slave/executor_registration_timeout
+echo ‘5mins’ > /etc/mesos-slave/docker_remove_delay
+
+首先关掉mesos-master 
+service mesos-slave start
+
+
+
+Hostname
+
+同理，这里为/etc/mesos-slave/hostname
+需要将本机的ip写进配置文件中
+1
+echo '10.0.0.231' > /etc/mesos-slave/ip
+echo '10.0.0.231' > /etc/mesos-slave/hostname
+ZooKeeper
+
+配置zookeeper的地址，因为说过他们会向zookeeper注册，配置同master /etc/mesos/zk
+1
+zk://192.168.1.110:2181,192.168.1.111:2181/mesos
+
+配置zookeeper的地址，因为说过他们会向zookeeper注册，配置同master /etc/mesos/zk
+1
+zk://192.168.1.110:2181,192.168.1.111:2181/mesos  这个是添加zookeeper
+
+
+
+
+
+
+test 分支：
+start。sh
+#!/bin/sh
+
+ 
+
+mkdir -p /var/www/html/web/opencloud-admin/apps/om/protected/runtime
+mkdir -p /var/www/html/web/opencloud-admin/apps/om/assets 
+chmod -R 755 /var/www/html/
+chmod -R 777 /var/www/html/web/opencloud-admin/apps/om/protected/runtime
+chmod -R 777 /var/www/html/web/opencloud-admin/apps/om/assets
+
+# /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+nginx && php-fpm
+
+FROM harbor.qcloud.qptianxia.com/ops_manage/nginx-fpm
+
+RUN rm /etc/nginx/conf.d/* -rf
+ADD web/admin-web/ /var/www/html/web/opencloud-admin
+ADD Config/ /var/www/html/Config
+
+ADD vhost.conf /etc/nginx/conf.d
+ADD start.sh /start.sh
+
+RUN chmod 777 /start.sh && rm -rf /etc/nginx/sites-enabled/default
+
+
+
+
+
+#!/bin/bash
+
+service nginx start
+service php7.0-fpm start
+ 
+
+mkdir -p /usr/share/nginx/html/web/opencloud-admin/apps/om/protected/runtime
+mkdir -p /usr/share/nginx/html/web/opencloud-admin/apps/om/assets 
+chmod -R 755 /usr/share/nginx/html/
+chmod -R 777 /usr/share/nginx/html/web/opencloud-admin/apps/om/protected/runtime
+chmod -R 777 /usr/share/nginx/html/web/opencloud-admin/apps/om/assets
+
+/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+
+
+
+$ sudo docker run --name mysql -p 3306:3306 -v /opt/mysql/data:/var/lib/mysql -v /opt/mysql/conf:/etc/mysql/conf.d -e "grant all privileges on *.* to 'poker'@'%' identified by 'letmein';" -d mysql:5.6.35
+
+
+
+
+grant all privileges on *.* to 'poker'@'%' identified by 'wesai.poker';
+CREATE DATABASE db_poker DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+
+
+
+
+
+

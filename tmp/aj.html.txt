@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
+	<meta charset="UTF-8">
+	<title>js-test</title>
+</head>
+<body>
+	<script>
+		$(document).on('ready',function(){
+			$('#btn1').on('click',function(){
+				$('#test1').hide()
+			})
+		})
+	</script>
+	<h3 id='test1'>you are change the world</h3>
+	<button id='btn1'>装载</button>
+
+	<div>
+		<button class='' id='btn1'>修改</button>
+		<P id="context"></P>
+<!-- 
+	  <script>
+		  $(function(){
+		    $("#slider").slider();
+		    animate:'true'
+		    max:32
+		    min:1
+		    step:1
+		 //    slide: function( event, ui ) {
+			// 	// $('#res').html(ui.value)
+			// 	console.log('ui.value')
+			// }
+			// $(function(){
+			// 	$('#pro').porgressbar({
+			// 		value: 37
+			// 	})
+			// }
+	  </script> -->
+	  <script>
+			  // $('btb2').on('click',function(){
+			  // 		$('btb2').on('click',function(){
+			  //     	$('#'progressbar).progressbar('value',num+10)
+			  //     })
+			  $(function() {
+			  		var num = 0
+			  		$('#progressbar').progressbar({
+			  			value: num
+			  		})
+
+			  		$('#btb2').on('click',function(){
+
+			  			num+=10
+			  			$('#progressbar').progressbar('value',num)
+			  		})
+
+			  		$('#btb3').on('click',function(){
+
+			  			num-=10
+			  			$('#progressbar').progressbar('value',num)
+			  		})
+
+			  })
+
+
+
+	  </script>
+
+	  <script>
+	  	swal({
+		    title: "安装PHP插件",
+		    text: "这就会重启Docker",
+		    type: "warning",
+		    showCancelButton: true,
+		    confirmButtonColor: "#DD6B55",
+		    confirmButtonText: "确定!",
+		    closeOnConfirm: false,
+		    html: false
+		},
+		function() {
+		    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+		});
+	  </script>
+	<div id="slider"></div>
+	<p id="res"></p>
+	<div id="progressbar"></div>
+	<button id="btb2">bbt2</button>	<button id="btb3">bbt4</button>
+
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+ "db_pass": "jio6s&eh1N
+
+ FROM harbor.qcloud.qptianxia.com/ops_manage/nginx-phpfpm
+
+RUN rm /usr/share/nginx/html/* -rf
+ADD web/admin-web/ /usr/share/nginx/html/web/admin-web
+ADD Config/ /usr/share/nginx/html/Config
+
+ADD vhost.conf /etc/nginx/conf.d
+ADD start.sh /start.sh
+
+RUN chmod 777 /start.sh && rm /etc/nginx/sites-enabled/default
+
+coin-service
+FROM harbor.qcloud.qptianxia.com/ops_manage/nginx-fpm
+
+RUN rm /usr/share/nginx/html/* -rf
+ADD vendor/ /usr/share/nginx/html/vendor
+ADD Config/ /usr/share/nginx/html/Config
+ADD service/ /usr/share/nginx/html/service
+RUN sed -i 's/$daemonize = true/$daemonize = false/' /usr/share/nginx/html/vendor/Core/Master.php
+
+  已经更换dockerfile 并简单测试的服务
+  user-service
+  adminpre
+  test.adminservice.qptianxia.com
+  test.coinservice.qptianxia.com-tcp
+  com-service test.workman.qptianxia.com 20010
+  test.florissa.qptianxia.com   静态文件，待确认。。。
+  test.hiwan8.qptianxia.com 静态文件
+  http://test.cai8.qptianxia.com/index.ios.js 待确认
+  Mall服务 test.lmservice.qptianxia.com-tcp 20012
+  test.lotterygo.qptianxia.com-tcp 20002
+  test.lotweb.qptianxia.com-tcp 8080 
+
+
+
+./log-monitor -c config/monitor.yml
+./log-broker -c config/broker.yml
+./log-pipe -c config/pipe.yml
+
+
+for i in `ls`; do  sed -i  's@[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}@tst.workman.qptianxia.com' $i;done
+
+
+
+
+
+
+
+
+
+
+

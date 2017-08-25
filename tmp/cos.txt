@@ -1,0 +1,19 @@
+sudo apt-get install automake autotools-dev g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
+wget https://mc.qcloudimg.com/static/archive/144302cd3e6afb2bf2758a8c0c1d9bb9/cosfs-v4.2.1-master.zip
+unzip osfs-v4.2.1-master.zip
+cd cosfs
+./autogen.sh
+./configure
+make
+sudo make install
+
+
+echo dezhoupuke:AKIDCKH2byR8wXw9Azr5LRN9mEWcWEm8uI4k:c2JQjtrdGhvzqVyELI3e6MQIzUntnYBb  > /etc/passwd-cosfs
+chmod 640 /etc/passwd-cosfs
+
+cosfs 1252894800:dezhoupuke /opt/html -ourl=http://cn-north.myqcloud.com -odbglevel=info -ouse_cache=/opt/html_cache
+
+
+cos_appid=1252894800
+cos_secretid=AKIDCKH2byR8wXw9Azr5LRN9mEWcWEm8uI4k
+cos_secretkey=c2JQjtrdGhvzqVyELI3e6MQIzUntnYBb

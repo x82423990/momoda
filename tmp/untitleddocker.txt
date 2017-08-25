@@ -1,0 +1,37 @@
+
+old Dokerfile
+FROM harbor.qcloud.qptianxia.com/ops_manage/nginx-fpm
+
+RUN rm /usr/share/nginx/html/* -rf
+ADD vendor/ /usr/share/nginx/html/vendor
+ADD Config/ /usr/share/nginx/html/Config
+ADD service/ /usr/share/nginx/html/service
+RUN sed -i 's/$daemonize = true/$daemonize = false/' /usr/share/nginx/html/vendor/Core/Master.php
+
+
+"Cmd": [
+    "-ip=10.0.64.23",
+    "etcd://etcd.qcloud.qptianxia.com/publish"
+docker pull gliderlabs/registrator:latest
+docker run -d --name registrator \
+ -v /var/run/docker.sock:/tmp/docker.sock   harbor.qcloud.qptianxia.com/ops_manage/registrator\
+ -ip 10.0.0.177 -resync 60 etcd://etcd.qcloud.qptianxia.com/product
+
+nohup  mesos-slave --master=zk://10.0.64.2:2181/mesos --work_dir=/var/lib/mesos -ip=10.0.0.177 --hosname=pro.salve1  --log_dir=/var/log/mesos/  > /tmp/mesos.init 2>&1  &
+
+/usr/bin/marathon mesosphere.marathon.Main --hostname 10.0.64.2 --zk zk://localhost:2181/mesos --master zk://localhost:2181/mesos
+
+
+{{range $dir :=lsdir "/product/"}}
+{{ $url := split (getv "/product/%s" $dir) "-" }} {{ if ge ( len ($url)) 2 }} {{ $domain := replace $dir "-tcp" "" -1}}
+upstream {{$domain}}_upstream { {{$cusdir :=printf "/product/%s/*" $dir}}  {{range gets $cusdir}}
+server {{.Value}};{{end}}
+}
+{{else}} {{end}}{{end}}
+
+{{range $dir :=lsdir "/publish/"}}
+{{ $url := split (getv "/publish/%s" $dir) "-" }} {{ if ge ( len ($url)) 2 }} {{ $domain := replace $dir "-tcp" "" -1}}
+upstream {{$domain}}_upstream { {{$cusdir :=printf "/publish/%s/*" $dir}}  {{range gets $cusdir}}
+server {{.Value}};{{end}}
+}
+{{else}} {{end}}{{end}}

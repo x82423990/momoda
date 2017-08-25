@@ -1,0 +1,179 @@
+prometheus 监控实战
+
+1、安装client
+$ wget https://github.com/prometheus/node_exporter/releases/download/v0.14.0/node_exporter-0.14.0.linux-amd64.tar.gz
+$ wget https://github.com/prometheus/mysqld_exporter/releases/download/v0.10.0/mysqld_exporter-0.10.0.linux-amd64.tar.gz
+$ mkdir /opt/prometheus_exporters
+$ tar zxf node_exporter-0.14.0.linux-amd64.tar.gz -C /opt/prometheus_exporters --strip-components=1  && tar zxf mysqld_exporter-0.10.0.linux-amd64.tar.gz -C /opt/prometheus_exporters --strip-components=1
+
+2、启动os监控client
+ nohup /opt/prometheus_exporters/node_exporter & 
+
+3、mysqld_exporter需要连接到MySQL,需要授权
+mysql> GRANT REPLICATION CLIENT, PROCESS ON *.* TO 'monitor'@'localhost' identified by 'test123';
+mysql> GRANT SELECT ON performance_schema.* TO 'monitor'@'localhost';
+
+4、创建 .my.cnf 文件并运行mysqld_exporter
+[root@monitor prometheus_exporters]# cat .my.cnf 
+[client]
+user=monitor
+password=test123
+启动mysqld_exporter
+nohup /opt/prometheus_exporters/mysqld_exporter -config.my-cnf=".my.cnf" &
+
+
+热更新的加载方法有两种：
+
+kill -HUP pid
+curl -X POST http://localhost:9090/-/reload
+
+
+alert报警
+
+ALERT NETWORK_TRRIFC
+  IF sum(rate(node_network_receive_bytes{device="eth0"}[5m]))/8/1024  > 20
+  FOR 10s
+  LABELS { severity = "page" }
+  ANNOTATIONS {
+    summary = "外网流量过大{{ $labels.instance }}",
+    description = "{{ $labels.instance }} 外网流量超过20kb/s (current value: {{ $value }}kb)",
+  }
+
+自定义手机信息
+
+du -sb /var/log /opt/ /var/lib/ | sed -ne 's/^\([0-9]\+\)\t\(.*\)$/node_directory_size_bytes{directory="\2"} \1/p' > /opt/node_exporter-0.14.0.linux-amd64/textfile_collector/directory_size.prom.$$ && mv opt/node_exporter-0.14.0.linux-amd64/textfile_collector/directory_size.prom.$$ opt/node_exporter-0.14.0.linux-amd64/textfile_collector/directory_size.prom
+
+
+
+
+
+
+config:
+_________________________________________
+server
+
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'codelab-monitor'
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "first.rules"
+  # - "second.rules"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ['localhost:9090']
+scrape_configs:
+  - job_name: linux
+    static_configs:
+      - targets: ['localhost:9100']
+        labels:
+          instance: db1
+
+  - job_name: mysql
+    static_configs:
+      - targets: ['localhost:9104']
+        labels:
+          instance: db1
+
+  - job_name: docker
+    static_configs:
+      - targets: ['10.0.0.177:9100']
+        labels:
+          instance: slave
+
+  - job_name: con
+    static_configs:
+      - targets: ['10.0.0.177:9104']
+        labels:
+          instance: slave1
+
+  - job_name: pro.mysql
+    static_configs:
+      - targets: ['211.159.153.102:9104']
+        labels:
+          instance: pro
+
+  - job_name: 'Java-Service'
+    file_sd_configs:
+      - files:
+        - '/etc/prometheus/targets/node/java.json'
+
+  - job_name: 'Jumpserver'
+    file_sd_configs:
+      - files:
+        - '/etc/prometheus/targets/node/jump.json'
+
+  - job_name: 'Docker-slave'
+    file_sd_configs:
+      - files:
+        - '/etc/prometheus/targets/node/docker.json'
+
+
+  ##说明： jobname 可以理解为服务器组， instance 可以理解为服务器实例，一个实例可以属于多个组， 一个组可以包括多个实例。
+
+  ## root@zabbix:/opt/soft/prometheus-1.6.3.linux-amd64# cat /etc/prometheus/targets/node/java.json
+[{
+ "targets": ["211.159.153.102:9100"],
+    "labels": {
+      "instance": "pro"
+}
+},
+{
+ "targets": ["211.159.156.65:9100"],
+    "labels": {
+      "instance": "pub"
+}
+},
+{
+ "targets": ["211.159.151.172:9100"],
+    "labels": {
+      "instance": "test"
+}
+}
+]
+
+
+
+
+——————
+node自动安装:
+set -e
+rm -rf /opt/soft &&  mdkir /opt/soft/
+cd /opt/soft/
+wget monitor.qptianxia.com:3166/node_exporter-0.14.0.linux-amd64.tar.gz
+tar xf node_exporter-0.14.0.linux-amd64.tar.gz
+cd node_exporter-0.14.0.linux-amd64
+mkdir {textfile_collector,cron} && mkdir cron/120
+cd cron/120 && wget ports_status.py
+echo '*/2 * * * * /usr/bin/python /opt/soft/node_exporter-0.14.0.linux-amd64/cron/120/ports_status.py' >>  /var/spool/cron/crontabs/root
+cd /opt/soft/node_exporter-0.14.0.linux-amd64/
+nohu ./node_exporter -collector.textfile.directory ./textfile_collector/ &
+echo 'node is success install'
+
+
+
+
+
+
+
+
+
+
+
+

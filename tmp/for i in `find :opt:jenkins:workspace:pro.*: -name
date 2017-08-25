@@ -1,0 +1,16 @@
+for i in `find /opt/jenkins/workspace/pro.*/ -name poker.*.jar `;do
+scp -i /opt/weisai.com $i poker@pro:/tmp
+done
+
+mv /tmp/poker.chat-1.0.jar /opt/service/chat/
+mv /tmp/poker.db-1.0.jar /opt/service/db/
+mv /tmp/poker.hall-1.0.jar /opt/service/hall/
+mv /tmp/poker.pay-1.0.jar /opt/service/pay/
+mv /tmp/poker.room-1.0.jar /opt/service/room/
+
+
+oker 2852146 Jun 19 16:24 poker.chat-1.0.jar
+-rw-r--r-- 1 poker poker 2968279 Jun 19 16:24 poker.db-1.0.jar
+-rw-r--r-- 1 poker poker 3136438 Jun 19 16:24 poker.hall-1.0.jar
+-rw-r--r-- 1 poker poker 2052519 Jun 19 16:24 poker.pay-1.0.jar
+-rw-r--r-- 1 poker poker 3564990 Jun 19 16:24 poker.room-1.0.jar

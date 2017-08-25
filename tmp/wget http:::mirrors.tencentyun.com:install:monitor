@@ -1,0 +1,22 @@
+wget http://mirrors.tencentyun.com/install/monitor/linux_stargate_installer
+chmod +x linux_stargate_installer
+./linux_stargate_installer
+
+
+mysqldump --opt -d db_poker -u root -p > /tmp/2.sql 
+
+CommitLimit:     8165764 kB
+Committed_AS:    2987400 kB
+
+
+一般情况下修改tcp_max_syn_backlog值可以解决.
+[root@test ~]# echo 2048 > /proc/sys/net/ipv4/tcp_max_syn_backlog
+[root@test ~]# cat /proc/sys/net/ipv4/tcp_max_syn_backlog
+2048
+
+6
+-bash: warning: setlocale: LC_CTYPE: cannot change locale (C;zh_CN.UTF-8): No such file or directory
+-bash: warning: setlocale: LC_COLLATE: cannot change locale (C;zh_CN.UTF-8): No such file or directory
+-bash: warning: setlocale: LC_MESSAGES: cannot change locale (C;zh_CN.UTF-8): No such file or directory
+-bash: warning: setlocale: LC_NUMERIC: cannot change locale (C;zh_CN.UTF-8): No such file or directory
+-bash: warning: setlocale: LC_TIME: cannot change locale (C;zh_CN.UTF-8): No such file or directory
